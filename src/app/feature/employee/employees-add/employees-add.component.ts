@@ -12,7 +12,8 @@ import { ToastService } from 'src/app/core/services/toastr.service';
 })
 export class EmployeesAddComponent implements OnInit {
   createdEpmpleado: FormGroup;
-  submitted = false;
+  submitted: boolean;
+  loading: boolean;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -20,6 +21,8 @@ export class EmployeesAddComponent implements OnInit {
     private _route: Router,
     private _toastService: ToastService
   ) {
+    this.loading = false;
+    this.submitted = false;
     this.createdEpmpleado = this._formBuilder.group({
       name: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -43,7 +46,7 @@ export class EmployeesAddComponent implements OnInit {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-
+    this.loading = true;
     this._firebaseService
       .addEmployee(empleado)
       .then(() => {
@@ -51,10 +54,12 @@ export class EmployeesAddComponent implements OnInit {
           'El empleado se guardo exitosamente',
           'Registro de empleado'
         );
+        this.loading = false;
         this._route.navigate(['/employee/list']);
       })
       .catch((error) => {
         this._toastService.showSuccess(error, 'Registro de empleado');
+        this.loading = false;
       });
   }
 }

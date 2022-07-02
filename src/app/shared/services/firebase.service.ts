@@ -7,26 +7,33 @@ import { Employee } from 'src/app/feature/employee/model/employee';
   providedIn: 'root',
 })
 export class FirebaseService {
-  constructor(private _firestore: AngularFirestore) {}
+  collection: string;
+
+  constructor(private _firestore: AngularFirestore) {
+    this.collection = 'employee';
+  }
 
   addEmployee(employee: Employee) {
-    return this._firestore.collection('employee').add(employee);
+    return this._firestore.collection(this.collection).add(employee);
   }
   getEmployee(id: string): Observable<any> {
-    return this._firestore.collection('employee').doc(id).snapshotChanges();
+    return this._firestore
+      .collection(this.collection)
+      .doc(id)
+      .snapshotChanges();
   }
 
   listEmployee(): Observable<any> {
     return this._firestore
-      .collection('employee', (ref) => ref.orderBy('createdAt', 'asc'))
+      .collection(this.collection, (ref) => ref.orderBy('createdAt', 'asc'))
       .snapshotChanges();
   }
 
   deleteEmployee(id: string): Promise<any> {
-    return this._firestore.collection('employee').doc(id).delete();
+    return this._firestore.collection(this.collection).doc(id).delete();
   }
 
   editEmployee(id: string, employee: Employee): Promise<any> {
-    return this._firestore.collection('employee').doc(id).update(employee);
+    return this._firestore.collection(this.collection).doc(id).update(employee);
   }
 }
