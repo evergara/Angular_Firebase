@@ -4,7 +4,12 @@
       <div class="row">
         <div class="col-lg-12">
           <span class="h3"> List of employee</span>
-          <button class="btn btn-dark btn-lg float-end">Add</button>
+          <button
+            class="btn btn-dark btn-lg float-end"
+            routerLink="/employee/add"
+          >
+            Add
+          </button>
         </div>
         <div class="col-lg-12">
           <div class="table-responsive">
@@ -24,7 +29,10 @@
                   <td>quo</td>
                   <td>111111111</td>
                   <td>1200000</td>
-                  <td><i class="fa-regular fa-pen-to-square"></i></td>
+                  <td>
+                    <i class="fas fa-edit fa-lg text-info p-1"> </i>
+                    <i class="fas fa-trash-alt fa-lg text-danger p-1"></i>
+                  </td>
                 </tr>
               </tbody>
             </table>
