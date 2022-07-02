@@ -12,11 +12,11 @@ export class FirebaseService {
   addEmployee(employee: Employee) {
     return this._firestore.collection('employee').add(employee);
   }
-  getEmployee(id: string): Observable<Employee> {
+  getEmployee(id: string): Observable<any> {
     return this._firestore.collection('employee').doc(id).snapshotChanges();
   }
 
-  listEmployee(): Observable<Employee> {
+  listEmployee(): Observable<any> {
     return this._firestore
       .collection('employee', (ref) => ref.orderBy('createdAt', 'asc'))
       .snapshotChanges();
