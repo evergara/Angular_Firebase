@@ -21,34 +21,49 @@ export class EmployeesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEmployee();
+    this.listEmployees();
   }
 
-  getEmployee(): void {
+  listEmployees(): void {
     this.loading = true;
-
     this._firebaseService.listEmployee().subscribe({
       next: (data) => {
         this.createEmployee(data);
         this.loading = false;
       },
       error: (error) => {
-        this._toastService.showSuccess(error, 'Registro de empleado');
+        this._toastService.showSuccess(error, 'List of employe');
         this.loading = false;
       },
       complete: () => (this.loading = false),
     });
   }
 
+  deleteEmployees(idRmploye?: string): void {
+    if (idRmploye === undefined) return;
+    this.loading = true;
+    this._firebaseService
+      .deleteEmployee(idRmploye)
+      .then(() => {
+        this._toastService.showSuccess(
+          'Employee have been  delete success',
+          'Delete Employee'
+        );
+        this.loading = false;
+      })
+      .catch((error) => {
+        this._toastService.showSuccess(error, 'Delete Employee');
+        this.loading = false;
+      });
+  }
+  
   createEmployee(data: any): void {
-    let employee: Employee;
+    this.employees = [];
     data.forEach((element: any) => {
-      employee = {
-        id: element.payload._delegate.doc.id,
+      this.employees.push({
+        id: element.payload.doc.id,
         ...element.payload.doc.data(),
-      };
-
-      this.employees.push(employee);
+      });
     });
   }
 }

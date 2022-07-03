@@ -27,6 +27,7 @@ export class FirebaseService {
     return this._firestore
       .collection(this.collection, (ref) => ref.orderBy('createdAt', 'asc'))
       .snapshotChanges();
+    //return this._firestore.collection(this.collection).snapshotChanges();
   }
 
   deleteEmployee(id: string): Promise<any> {
